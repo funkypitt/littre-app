@@ -16,22 +16,24 @@ class AboutScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
 
             // Logo / icône
-            Container(
-              width: 96,
-              height: 96,
-              decoration: BoxDecoration(
-                color: colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Icon(
-                Icons.menu_book,
-                size: 48,
-                color: colorScheme.primary,
+            Center(
+              child: Container(
+                width: 96,
+                height: 96,
+                decoration: BoxDecoration(
+                  color: colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Icon(
+                  Icons.menu_book,
+                  size: 48,
+                  color: colorScheme.primary,
+                ),
               ),
             ),
 
