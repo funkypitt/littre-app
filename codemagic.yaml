@@ -1,0 +1,81 @@
+workflows:
+  # ── Android: build, sign, publish to Google Play ──
+  android-release:
+    name: Android Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      java: 21
+      android_signing:
+        - android-key-lm
+      groups:
+        - google_play_credentials
+    scripts:
+      - name: Clone XMLittré data
+        script: |
+          git clone https://github.com/funkypitt/xmlittre-data.git \
+            "$CM_BUILD_DIR/tools/xmlittre-data"
+      - name: Generate littre.db
+        script: |
+          python3 "$CM_BUILD_DIR/tools/convert_littre.py" \
+            "$CM_BUILD_DIR/tools/xmlittre-data" \
+            -o "$CM_BUILD_DIR/assets/littre.db"
+          ls -lh "$CM_BUILD_DIR/assets/littre.db"
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Set up key.properties
+        script: |
+          cat >> "$CM_BUILD_DIR/android/key.properties" <<EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=$CM_KEYSTORE_PATH
+          EOF
+      - name: Build AAB
+        script: flutter build appbundle --release
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+    publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
+        track: beta
+        changes_not_sent_for_review: true
+
+  # ── iOS: build, sign, publish to TestFlight ──
+  ios-release:
+    name: iOS Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      flutter: stable
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: ch.littre.littreApp
+    scripts:
+      - name: Clone XMLittré data
+        script: |
+          git clone https://github.com/funkypitt/xmlittre-data.git \
+            "$CM_BUILD_DIR/tools/xmlittre-data"
+      - name: Generate littre.db
+        script: |
+          python3 "$CM_BUILD_DIR/tools/convert_littre.py" \
+            "$CM_BUILD_DIR/tools/xmlittre-data" \
+            -o "$CM_BUILD_DIR/assets/littre.db"
+          ls -lh "$CM_BUILD_DIR/assets/littre.db"
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
