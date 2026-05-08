@@ -1,0 +1,34 @@
+[en]
+The complete Littré French dictionary — free and offline.
+
+Émile Littré's Dictionnaire de la langue française (Hachette, 1873–1874) packaged as an offline Android app. 78,599 entries with definitions, etymologies, and quotations from the canonical 19th-century reference. No connection required at any point.
+
+Search by prefix (instant autocomplete) or full-text against the definitions themselves (SQLite FTS5). Tap any cross-reference inside an entry to jump to the linked article. Save favourites, browse your reading history, get a daily word, and read in dark mode.
+
+Lexicographic data: "Le Littré" by François Gannaz (littre.org), CC BY-SA 3.0. Original text by Émile Littré: public domain.
+
+- 78,599 fully offline entries
+- Prefix and full-text search (FTS5)
+- Word of the day
+- Favourites and history
+- Clickable cross-references
+- Automatic dark mode
+- Merriweather typography
+
+---
+[fr]
+Le dictionnaire Littré complet, gratuit et hors-ligne.
+
+Le Dictionnaire de la langue française d'Émile Littré (Hachette, 1873–1874), distribué comme application Android hors-ligne. 78 599 entrées avec définitions, étymologies et citations, issues de la référence canonique du XIXe siècle. Aucune connexion requise, à aucun moment.
+
+Recherche par préfixe (autocomplétion instantanée) ou plein texte dans les définitions (SQLite FTS5). Cliquez sur un renvoi croisé à l'intérieur d'un article pour sauter directement à la fiche liée. Mettez en favoris, consultez votre historique, recevez un mot du jour, et lisez en mode sombre.
+
+Données lexicographiques : « Le Littré » par François Gannaz (littre.org), CC BY-SA 3.0. Texte original d'Émile Littré : domaine public.
+
+- 78 599 entrées entièrement hors-ligne
+- Recherche par préfixe et plein texte (FTS5)
+- Mot du jour
+- Favoris et historique
+- Renvois croisés cliquables
+- Mode sombre automatique
+- Typographie Merriweather

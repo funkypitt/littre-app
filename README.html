@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le dictionnaire Littré</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+    line-height: 1.55;
+    color: #222;
+  }
+  h1, h2 { line-height: 1.25; }
+  h1 { margin-bottom: 0.25rem; }
+  h2 { margin-top: 2rem; border-bottom: 1px solid #eee; padding-bottom: 0.25rem; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  pre { background: #f6f6f6; padding: 0.75rem 1rem; overflow-x: auto; border-radius: 4px; }
+  ul { padding-left: 1.25rem; }
+  a { color: #2a5db0; }
+</style>
+</head>
+<body>
+
+<h1>Le dictionnaire Littré</h1>
+<p><em>Dictionnaire Littré complet, gratuit et hors-ligne.</em></p>
+
+<h2>Overview</h2>
+<p>
+  Application Android offline du <em>Dictionnaire de la langue française</em> d'Émile Littré
+  (Hachette, 1873–1874), basée sur les données XML libres de François Gannaz
+  (<a href="https://bitbucket.org/Mytskine/xmlittre-data">xmlittre</a>).
+  78 599 entrées avec définitions, étymologies et citations, consultables sans connexion.
+</p>
+
+<h2>Features</h2>
+<ul>
+  <li><strong>78 599 entrées</strong>, consultables hors ligne</li>
+  <li>Recherche par préfixe (autocomplétion instantanée)</li>
+  <li>Recherche plein texte dans les définitions (SQLite FTS5)</li>
+  <li>Mot du jour</li>
+  <li>Favoris et historique de consultation</li>
+  <li>Renvois croisés cliquables entre articles</li>
+  <li>Mode sombre automatique</li>
+  <li>Typographie soignée (Merriweather)</li>
+  <li>Aucune connexion internet requise</li>
+</ul>
+
+<h2>Screenshots</h2>
+<p>No <code>screenshots/</code> folder is shipped with the source.</p>
+
+<h2>Build &amp; install</h2>
+<pre># 1. Préparer la base de données
+cd tools/
+git clone https://bitbucket.org/Mytskine/xmlittre-data.git
+python3 convert_littre.py xmlittre-data -o ../assets/littre.db
+
+# 2. Compiler
+flutter pub get
+flutter build apk
+</pre>
+
+<h2>License</h2>
+<p>Code application : GNU GPL v3.0 (voir <code>LICENSE</code>).</p>
+<p>Données lexicographiques : « Le Littré » par François Gannaz
+(<a href="https://www.littre.org">littre.org</a>) — licence
+<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.
+Texte original d'Émile Littré : domaine public.</p>
+
+</body>
+</html>
