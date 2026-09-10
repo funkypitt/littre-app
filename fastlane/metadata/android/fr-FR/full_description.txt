@@ -1,0 +1,15 @@
+Le Littré est une édition Android hors ligne du Dictionnaire de la langue française d'Émile Littré (Paris, Hachette, 1873-1874), basée sur les données XML libres de François Gannaz (littre.org, CC BY-SA 3.0).
+
+Fonctionnalités :
+- 78 599 entrées du dictionnaire, consultables hors ligne
+- Recherche par préfixe (autocomplétion instantanée)
+- Recherche plein texte dans les définitions
+- Mot du jour, avec un widget pour l'écran d'accueil
+- Favoris et historique de consultation
+- Renvois croisés cliquables entre articles
+- Mode sombre automatique
+- Typographie soignée (Merriweather)
+
+Le texte original d'Émile Littré est dans le domaine public.
+
+Pierre Gallaz · développé avec Claude Code

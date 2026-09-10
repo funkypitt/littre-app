@@ -59,3 +59,11 @@ lib/
 
 - **Données lexicographiques** : « Le Littré » par François Gannaz — [littre.org](https://www.littre.org) — Licence CC BY-SA 3.0
 - **Texte original** : Émile Littré, *Dictionnaire de la langue française*, Paris, Hachette, 1873–1874 (domaine public)
+
+## Crédits / Credits
+
+© 2026 Pierre Gallaz. Développé avec [Claude Code](https://claude.com/claude-code) (Anthropic).
+Licence GPL-3.0, voir `LICENSE`.
+
+© 2026 Pierre Gallaz. Developed with [Claude Code](https://claude.com/claude-code) (Anthropic).
+GPL-3.0 licence, see `LICENSE`.

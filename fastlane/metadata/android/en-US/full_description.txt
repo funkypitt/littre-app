@@ -1,0 +1,15 @@
+Le Littré is an offline Android edition of Émile Littré's Dictionnaire de la langue française (Paris, Hachette, 1873-1874), based on the free XML data of François Gannaz (littre.org, CC BY-SA 3.0).
+
+Features:
+- 78,599 dictionary entries, fully available offline
+- Instant prefix search (autocomplete)
+- Full-text search inside the definitions
+- Word of the day, with a home-screen widget
+- Favourites and consultation history
+- Clickable cross-references between articles
+- Automatic dark mode
+- Careful typography (Merriweather)
+
+The original text by Émile Littré is in the public domain.
+
+Pierre Gallaz · developed with Claude Code

@@ -125,6 +125,15 @@ class AboutScreen extends StatelessWidget {
                   '78 599 entrées — consultation hors ligne',
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  'Pierre Gallaz · développé avec Claude Code\n'
+                  'Pierre Gallaz · developed with Claude Code',
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
 
