@@ -5,7 +5,7 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      flutter: stable
+      flutter: 3.41.2  # the version the published builds use; pin so a new "stable" cannot break a build
       java: 21
       android_signing:
         - android-key-lm
@@ -50,7 +50,7 @@ workflows:
     integrations:
       app_store_connect: codemagic
     environment:
-      flutter: stable
+      flutter: 3.41.2  # the version the published builds use; pin so a new "stable" cannot break a build
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ch.littre.littreApp
