@@ -1,3 +1,5 @@
+![Le dictionnaire Littré](docs/banner.png)
+
 # Littré — Dictionnaire de la langue française
 
 Application Android offline du dictionnaire d'Émile Littré, basée sur les données XML libres de François Gannaz ([xmlittre](https://bitbucket.org/Mytskine/xmlittre-data)).
@@ -67,3 +69,7 @@ Licence GPL-3.0, voir `LICENSE`.
 
 © 2026 Pierre Gallaz. Developed with [Claude Code](https://claude.com/claude-code) (Anthropic).
 GPL-3.0 licence, see `LICENSE`.
+
+## Captures d'écran
+
+<img src="docs/screenshot-1.png" width="30%"> <img src="docs/screenshot-2.png" width="30%"> <img src="docs/screenshot-3.png" width="30%">
