@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import '../services/term_matching.dart';
 
 /// Rendu riche d'un article du Littré (HTML → widgets Flutter).
 class EntryBody extends StatelessWidget {
@@ -81,8 +82,7 @@ class EntryBody extends StatelessWidget {
       },
       onLinkTap: (url, attributes, element) {
         if (url != null && url.startsWith('littre://') && onLinkTap != null) {
-          final terme = Uri.decodeFull(url.replaceFirst('littre://', ''));
-          onLinkTap!(terme);
+          onLinkTap!(referenceOfLink(url));
         }
       },
     );

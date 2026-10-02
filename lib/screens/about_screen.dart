@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -56,10 +57,13 @@ class AboutScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 8),
-            Text(
-              'Version 1.0.0',
-              style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+            FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) => Text(
+                snapshot.hasData ? 'Version ${snapshot.data!.version}' : '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
 

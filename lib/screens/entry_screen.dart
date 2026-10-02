@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/entry.dart';
 import '../services/database_service.dart';
 import '../services/favorites_service.dart';
+import '../services/term_matching.dart';
 import '../widgets/entry_body.dart';
 
 class EntryScreen extends StatefulWidget {
@@ -25,14 +26,20 @@ class _EntryScreenState extends State<EntryScreen> {
 
   void _navigateToEntry(String terme) async {
     final db = DatabaseService();
-    final entry = await db.getEntryByTerm(terme);
-    if (entry != null && mounted) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => EntryScreen(entry: entry),
-        ),
+    final entry = await db.getEntryByReference(terme);
+    if (!mounted) return;
+    if (entry == null) {
+      final mot = parseReference(terme).word;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Aucun article pour «\u00A0$mot\u00A0»')),
       );
+      return;
     }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EntryScreen(entry: entry),
+      ),
+    );
   }
 
   void _shareEntry() {

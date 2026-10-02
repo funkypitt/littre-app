@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/entry.dart';
+import 'term_matching.dart';
 
 /// Service singleton d'accès à la base SQLite du Littré.
 class DatabaseService {
@@ -49,15 +50,19 @@ class DatabaseService {
     int limit = 20,
   }) async {
     final db = await database;
-    final normalized = _normalize(query);
+    final normalized = normalizeTerm(query);
     if (normalized.isEmpty) return [];
 
-    final results = await db.query(
-      'entries',
-      where: 'terme_normalise LIKE ?',
-      whereArgs: ['$normalized%'],
-      orderBy: 'terme_normalise',
-      limit: limit,
+    // Le tri des identifiants se fait sur l'index seul, sans lire les articles.
+    final results = await db.rawQuery(
+      '''SELECT * FROM entries
+         WHERE id IN (
+           SELECT id FROM entries
+           WHERE $foldedColumn LIKE ?
+           ORDER BY $foldedColumn
+           LIMIT ?)
+         ORDER BY $foldedColumn''',
+      ['$normalized%', limit],
     );
     return results.map((m) => DictionaryEntry.fromMap(m)).toList();
   }
@@ -95,17 +100,28 @@ class DatabaseService {
     return DictionaryEntry.fromMap(results.first);
   }
 
-  /// Récupère une entrée par terme exact.
-  Future<DictionaryEntry?> getEntryByTerm(String terme) async {
+  /// Récupère l'entrée visée par un renvoi (« retombée », « avoir.1 »,
+  /// « abondant » pour ABONDANT, ANTE).
+  Future<DictionaryEntry?> getEntryByReference(String ref) async {
     final db = await database;
-    final results = await db.query(
-      'entries',
-      where: 'terme = ? COLLATE NOCASE',
-      whereArgs: [terme],
-      limit: 1,
+    final word = normalizeTerm(parseReference(ref).word);
+    if (word.isEmpty) return null;
+
+    // Mots-vedettes où le mot figure en entier, dans l'ordre du dictionnaire.
+    final candidates = await db.rawQuery(
+      '''SELECT id, terme FROM entries
+         WHERE id IN (
+           SELECT id FROM entries
+           WHERE instr(' ' || replace($foldedColumn, ',', ' ,') || ' ', ?) > 0)
+         ORDER BY id''',
+      [' ${word.replaceAll(',', ' ,')} '],
     );
-    if (results.isEmpty) return null;
-    return DictionaryEntry.fromMap(results.first);
+    final index = resolveReference(
+      ref,
+      candidates.map((m) => m['terme'] as String).toList(),
+    );
+    if (index == null) return null;
+    return getEntry(candidates[index]['id'] as int);
   }
 
   /// Liste les termes commençant par une lettre.
@@ -141,18 +157,5 @@ class DatabaseService {
     final db = await database;
     final result = await db.rawQuery('SELECT COUNT(*) as cnt FROM entries');
     return Sqflite.firstIntValue(result) ?? 0;
-  }
-
-  String _normalize(String input) {
-    // Suppression basique des diacritiques côté Dart
-    final normalized = input.toLowerCase().trim();
-    // Mapping français courant
-    const diacritics = 'àâäéèêëïîôùûüÿçœæ';
-    const replacements = 'aaaeeeeiiouuuycoeae';
-    var result = normalized;
-    for (var i = 0; i < diacritics.length; i++) {
-      result = result.replaceAll(diacritics[i], replacements[i]);
-    }
-    return result;
   }
 }
