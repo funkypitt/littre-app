@@ -3,14 +3,21 @@ workflows:
   android-release:
     name: Android Release
     max_build_duration: 60
-    instance_type: mac_mini_m2
+    instance_type: linux_x2
     environment:
       flutter: 3.41.2  # the version the published builds use; pin so a new "stable" cannot break a build
       java: 21
       android_signing:
-        - android-key-lm
+        - gallaz  # Code signing identities → Android keystores, the shared release key
       groups:
-        - google_play_credentials
+        - google_play  # GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS (the service account's JSON key, secure)
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: 'v*'
+          include: true
+      cancel_previous_builds: true
     scripts:
       - name: Clone XMLittré data
         script: |
@@ -39,8 +46,8 @@ workflows:
     publishing:
       google_play:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
-        track: beta
-        changes_not_sent_for_review: true
+        track: internal
+        submit_as_draft: true  # the console's "Start rollout" stays a human step
 
   # ── iOS: build, sign, publish to TestFlight ──
   ios-release:
