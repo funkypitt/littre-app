@@ -1,0 +1,1 @@
+New: "Feuilleter" (browse). The dictionary page after page, in the order of the book: turn the pages, open at random, jump to a letter. The app reopens at the page where you stopped, and every article lets you browse from there.

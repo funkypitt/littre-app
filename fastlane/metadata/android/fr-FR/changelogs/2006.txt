@@ -1,0 +1,1 @@
+Nouveau : « Feuilleter ». Le dictionnaire page après page, dans l'ordre du livre : tournez les pages, ouvrez au hasard, sautez à une lettre. L'app rouvre à la page où vous vous étiez arrêté, et chaque article permet de feuilleter à partir de lui.
