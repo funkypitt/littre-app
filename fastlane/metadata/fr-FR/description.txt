@@ -1,0 +1,14 @@
+Le Dictionnaire de la langue française d'Émile Littré (Paris, Hachette, 1873-1874) en entier, hors ligne : 78 599 entrées avec leurs définitions, leurs étymologies et leurs citations.
+
+- Recherche au fil de la frappe, par mot ou dans le texte des définitions
+- Feuilleter : le dictionnaire page après page, dans l'ordre du livre ; tournez les pages, ouvrez au hasard, sautez à une lettre
+- Mot du jour
+- Favoris et historique
+- Renvois entre articles, ouverts d'un toucher
+- Thème clair ou sombre, selon le système
+
+Gratuit, sans publicité, sans compte. L'application ne demande aucune connexion et ne collecte aucune donnée.
+
+Données : « Le Littré » de François Gannaz (littre.org), CC BY-SA 3.0. Le texte d'Émile Littré est dans le domaine public.
+
+Pierre Gallaz · développé avec Claude Code

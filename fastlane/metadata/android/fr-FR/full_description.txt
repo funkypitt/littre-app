@@ -4,6 +4,7 @@ Fonctionnalités :
 - 78 599 entrées du dictionnaire, consultables hors ligne
 - Recherche par préfixe (autocomplétion instantanée)
 - Recherche plein texte dans les définitions
+- Feuilleter : le dictionnaire page après page, comme le livre
 - Mot du jour, avec un widget pour l'écran d'accueil
 - Favoris et historique de consultation
 - Renvois croisés cliquables entre articles

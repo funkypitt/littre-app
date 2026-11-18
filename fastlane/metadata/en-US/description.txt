@@ -1,0 +1,14 @@
+Émile Littré's Dictionnaire de la langue française (Paris, Hachette, 1873-1874), complete and offline: 78,599 entries with their definitions, etymologies and quotations. The dictionary and the app are in French.
+
+- Search as you type, by word or inside the definitions
+- Feuilleter (browse): the dictionary page after page, in the order of the book; turn the pages, open at random, jump to a letter
+- Word of the day
+- Favourites and history
+- Cross-references between articles, opened with a tap
+- Light or dark theme, following the system
+
+Free, no ads, no account. The app needs no connection and collects no data.
+
+Data: "Le Littré" by François Gannaz (littre.org), CC BY-SA 3.0. Émile Littré's text is in the public domain.
+
+Pierre Gallaz · developed with Claude Code

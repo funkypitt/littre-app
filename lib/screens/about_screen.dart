@@ -121,7 +121,7 @@ class AboutScreen extends StatelessWidget {
               title: 'Application',
               children: [
                 const Text(
-                  'Application Android réalisée avec Flutter.',
+                  'Application réalisée avec Flutter.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),

@@ -85,4 +85,88 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
+        submit_to_testflight: false  # upload only; TestFlight needs its test information filled in first
+
+  # ── iOS: walk through the app in the simulator, one screenshot per scene ──
+  # integration_test/shots_test.dart searches a word, opens its article and leafs
+  # through the dictionary; each "SHOT:<name>" line it prints is a screenshot here.
+  # Proves the app works on iOS and gives the App Store its 6.9" screenshots.
+  ios-screenshots:
+    name: iPhone screenshots (simulator)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: 3.41.2
+      xcode: latest
+      cocoapods: default
+      vars:
+        SIM_DEVICE: "iPhone 16 Pro Max"  # 6.9", 1320×2868: the size App Store Connect requires
+    scripts:
+      - name: Clone XMLittré data
+        script: |
+          git clone https://github.com/funkypitt/xmlittre-data.git \
+            "$CM_BUILD_DIR/tools/xmlittre-data"
+      - name: Generate littre.db
+        script: |
+          python3 "$CM_BUILD_DIR/tools/convert_littre.py" \
+            "$CM_BUILD_DIR/tools/xmlittre-data" \
+            -o "$CM_BUILD_DIR/assets/littre.db"
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Walk through the app and take the screenshots
+        script: |
+          #!/bin/bash
+          set -e -o pipefail
+          UDID=$(xcrun simctl create shots "$SIM_DEVICE")
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3
+          sleep 120  # the "Ready for Apple Intelligence" banner shows up ~90 s after boot; let it pass
+          mkdir -p screenshots
+          flutter drive --driver=test_driver/integration_test.dart \
+            --target=integration_test/shots_test.dart -d "$UDID" 2>&1 |
+          while IFS= read -r line; do
+            echo "$line"
+            case "$line" in
+              *SHOT:*) name="${line##*SHOT:}"; sleep 1
+                       xcrun simctl io "$UDID" screenshot "screenshots/$name.png" ;;
+            esac
+          done
+          xcrun simctl shutdown "$UDID"
+          ls -l screenshots/
+    artifacts:
+      - screenshots/*.png
+
+  # One-off helper: registers the bundle id at Apple and creates its App Store
+  # provisioning profile, signed with the distribution certificate Codemagic holds.
+  # Then: Settings → Code signing identities → iOS provisioning profiles →
+  # Fetch profiles → tick the new one.
+  apple-profiles:
+    name: "Apple: bundle id and App Store profile"
+    max_build_duration: 10
+    instance_type: linux_x2
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      vars:
+        BUNDLE_ID: "ch.littre.littreApp"
+        BUNDLE_NAME: "Le Littre"
+        CERT_ID: "UV32QNP69H"  # "Apple Distribution: Pierre Gallaz", expires 2027-03-02
+    scripts:
+      - name: Register the bundle id and create the profile
+        script: |
+          set -e
+          lookup() { app-store-connect list-bundle-ids --bundle-id-identifier "$BUNDLE_ID" --platform IOS --strict-match-identifier 2>/dev/null | sed -n 's/^Id: //p' | head -1; }
+          BID=$(lookup)
+          if [ -z "$BID" ]; then
+            app-store-connect create-bundle-id --platform IOS --name "$BUNDLE_NAME" "$BUNDLE_ID"
+            BID=$(lookup)
+          fi
+          echo "$BUNDLE_ID → bundle id resource $BID"
+          test -n "$BID"
+          app-store-connect create-profile \
+            --certificate-ids "$CERT_ID" \
+            --type IOS_APP_STORE \
+            --name "$BUNDLE_ID app store" \
+            "$BID" || echo "(profile not created: it may already exist)"
+          echo "=== App Store profiles"; app-store-connect list-profiles --type IOS_APP_STORE || true

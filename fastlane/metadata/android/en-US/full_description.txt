@@ -4,6 +4,7 @@ Features:
 - 78,599 dictionary entries, fully available offline
 - Instant prefix search (autocomplete)
 - Full-text search inside the definitions
+- Feuilleter (browse): the dictionary page after page, like the book
 - Word of the day, with a home-screen widget
 - Favourites and consultation history
 - Clickable cross-references between articles
