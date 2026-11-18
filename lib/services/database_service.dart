@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import '../models/browse_entry.dart';
 import '../models/entry.dart';
 import 'term_matching.dart';
 
@@ -140,6 +141,52 @@ class DatabaseService {
       offset: offset,
     );
     return results.map((m) => DictionaryEntry.fromMap(m)).toList();
+  }
+
+  static const _browseColumns =
+      'id, terme, nature, substr(corps, 1, 2500) AS debut, '
+      'length(corps) AS longueur';
+
+  /// Les articles qui se suivent dans le dictionnaire à partir de [id].
+  Future<List<BrowseEntry>> browseFrom(int id, {int limit = 60}) async {
+    final db = await database;
+    final results = await db.rawQuery(
+      'SELECT $_browseColumns FROM entries WHERE id >= ? ORDER BY id LIMIT ?',
+      [id, limit],
+    );
+    return results.map((m) => BrowseEntry.fromMap(m)).toList();
+  }
+
+  /// Les articles qui précèdent [id], dans l'ordre du dictionnaire.
+  Future<List<BrowseEntry>> browseBefore(int id, {int limit = 60}) async {
+    final db = await database;
+    final results = await db.rawQuery(
+      '''SELECT $_browseColumns FROM entries
+         WHERE id < ? ORDER BY id DESC LIMIT ?''',
+      [id, limit],
+    );
+    return results.reversed.map((m) => BrowseEntry.fromMap(m)).toList();
+  }
+
+  Map<String, int>? _letterStarts;
+
+  /// Le premier article de chaque lettre (« A » → 1, « B » → 5248…),
+  /// dans l'ordre de l'alphabet. Chaque lettre s'ouvre sur son propre article.
+  Future<Map<String, int>> getLetterStarts() async {
+    if (_letterStarts != null) return _letterStarts!;
+    final db = await database;
+    final results = await db.rawQuery(
+      '''SELECT upper(terme_normalise) AS lettre, min(id) AS debut
+         FROM entries
+         WHERE length(terme_normalise) = 1
+           AND terme_normalise BETWEEN 'a' AND 'z'
+         GROUP BY terme_normalise
+         ORDER BY debut''',
+    );
+    _letterStarts = {
+      for (final m in results) m['lettre'] as String: m['debut'] as int,
+    };
+    return _letterStarts!;
   }
 
   /// Mot aléatoire.

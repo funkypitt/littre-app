@@ -11,6 +11,7 @@ publicité ni compte. Données [littre.org](https://www.littre.org) (François G
 
 - Taper le début d'un mot : les entrées s'affichent au fil de la frappe.
 - Le bouton à côté du champ bascule entre la recherche par mot et la recherche dans le texte des définitions.
+- Feuilleter : le dictionnaire page après page, dans l'ordre du livre ; tourner les pages, ouvrir au hasard, sauter à une lettre. L'app rouvre à la page où l'on s'était arrêté, et chaque article permet de feuilleter à partir de lui.
 - Dans un article, les renvois s'ouvrent d'un toucher ; l'étoile met le mot en favori.
 - Favoris et historique (les 100 derniers mots consultés) restent sur le téléphone.
 - Mot du jour dans l'app et en widget d'écran d'accueil ; la tuile de [Reader's Launcher](https://github.com/funkypitt/readers-launcher) l'affiche aussi.

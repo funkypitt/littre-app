@@ -6,6 +6,7 @@ import '../services/database_service.dart';
 import '../services/favorites_service.dart';
 import '../services/term_matching.dart';
 import '../widgets/entry_body.dart';
+import 'browse_screen.dart';
 
 class EntryScreen extends StatefulWidget {
   final DictionaryEntry entry;
@@ -71,6 +72,15 @@ class _EntryScreenState extends State<EntryScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          IconButton(
+            icon: const Icon(Icons.auto_stories_outlined),
+            tooltip: 'Feuilleter à partir d\'ici',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => BrowseScreen(startId: entry.id),
+              ),
+            ),
+          ),
           IconButton(
             icon: Icon(isFav ? Icons.star : Icons.star_outline),
             color: isFav ? Colors.amber : null,

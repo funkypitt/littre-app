@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/browse_screen.dart';
 import 'screens/favorites_screen.dart';
 import 'screens/about_screen.dart';
 
@@ -43,6 +44,7 @@ class _MainShellState extends State<MainShell> {
 
   final _screens = const [
     HomeScreen(),
+    BrowseScreen(),
     FavoritesScreen(),
     AboutScreen(),
   ];
@@ -62,6 +64,11 @@ class _MainShellState extends State<MainShell> {
             icon: Icon(Icons.search),
             selectedIcon: Icon(Icons.search),
             label: 'Recherche',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.auto_stories_outlined),
+            selectedIcon: Icon(Icons.auto_stories),
+            label: 'Feuilleter',
           ),
           NavigationDestination(
             icon: Icon(Icons.star_outline),
